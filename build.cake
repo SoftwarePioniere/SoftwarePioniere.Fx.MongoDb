@@ -17,8 +17,8 @@ var isDryRun        = HasArgument("dryrun1");
 
 var artifactsDirectory  = Directory("./artifacts");
 var version             = "0.0.0";
-var solutionFile        = File("./SoftwarePioniere.ReadModel.sln");
-var image               = "softwarepioniere/softwarepioniere.readmodel";
+var solutionFile        = File("./SoftwarePioniere.ReadModel.MongoDb.sln");
+var image               = "softwarepioniere/softwarepioniere.readmodel.mongodb";
 var nugetApiKey         = "VSTS";
 var vstsToken           = "XXX";
 
@@ -127,8 +127,13 @@ Task("DockerTest")
     .IsDependentOn("Version")
     .Does(context =>
 {
-    MyDotNet.DockerTestProject(image + ".tests" , "SoftwarePioniere.ReadModel.Tests", artifactsDirectory);
-    MyDotNet.DockerTestProject(image + ".tests" , "SoftwarePioniere.ReadModel.Services.Tests", artifactsDirectory);
+
+    var env = new [] {
+                $"SOPI_TESTS_MONGODB__PORT={EnvironmentVariable("SOPI_TESTS_MONGODB__PORT")}",
+                $"SOPI_TESTS_MONGODB__DATABASEID=sopi-test-run"
+        };
+
+     MyDotNet.DockerTestProject(image + ".tests" , "SoftwarePioniere.ReadModel.Services.MongoDb.Tests", artifactsDirectory, env);
 });
 
 Task("DockerPack")
@@ -174,6 +179,7 @@ Task("DockerBuildPush")
     .IsDependentOn("DockerPack")
     .IsDependentOn("DockerPushPackages")
     ;
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // EXECUTION
