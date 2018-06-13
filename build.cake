@@ -195,18 +195,12 @@ Task("DockerBuildPush")
     .IsDependentOn("DockerPushPackages")
     ;
 
-Task("Test1")
-    .IsDependentOn("Clean")
-    .IsDependentOn("Version")
-    .IsDependentOn("DockerBuild")
-    .IsDependentOn("DockerTest")
-    ;
-
 Task("Test2")
     .IsDependentOn("Clean")
     .IsDependentOn("Version")
     .IsDependentOn("DockerBuild")
     .IsDependentOn("DockerTest")
+    .IsDependentOn("DockerPack")
     ;
 
 ///////////////////////////////////////////////////////////////////////////////
