@@ -455,8 +455,9 @@ public class MyDotNet {
                 //                 );
 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
+                _context.Error(ex.Message);
                 throw;
             }
             finally
