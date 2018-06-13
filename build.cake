@@ -82,24 +82,6 @@ Task("Build")
 
 });
 
-private void StartTestEnv(){
-    Information("Starting Test Environment");
-
-    DockerComposeUp( new DockerComposeUpSettings{
-                Files = new [] { "docker-compose.yml" },
-                DetachedMode = true,
-                ForceRecreate = true
-        });
-}
-
-private void StopTestEnv(){
-    Information("Stopping Test Environment");
-
-    DockerComposeDown( new DockerComposeDownSettings{
-            Files = new [] { "docker-compose.yml" },
-            RemoveOrphans = true
-    });
-}
 
 Task("Test")
     .IsDependentOn("Clean")
@@ -108,8 +90,8 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(context =>
 {
-    StopTestEnv();
-    StartTestEnv();
+    MyDocker.StopTestEnv();
+    MyDocker.StartTestEnv();
 
 
     MyDotNet.TestProjects("./test/**/*.csproj");
@@ -119,7 +101,7 @@ Task("Test")
 })
 .Finally(() =>
 {
-  StopTestEnv();
+    MyDocker.StopTestEnv();
 })
 ;
 

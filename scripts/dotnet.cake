@@ -426,21 +426,49 @@ public class MyDotNet {
                 System.IO.File.AppendAllText(envFile.Path.FullPath, System.Environment.NewLine, System.Text.Encoding.UTF8);
         }
 
-
-        var settings = new DockerComposeRunSettings  {
-            DetachedMode = true,
-            Environment = tempEnv.ToArray(),
-            Files = new [] {
+        var dcFiles = new [] {
                 "docker-compose.yml",
                 "docker-compose.override.testrunner.yml"
-            }
         };
 
+
+
         if (!_isDryRun) {
-        _context.DockerComposeRun(settings, "testrunner", "dotnet", "test", "--logger:trx", "--no-build", "--no-restore"
-                    , "-r" , "/testresults", "-c", _configuration
-                    , $"/p:NuGetVersionV2={MyGitVersion.GetVersion()}" , $"/p:AssemblySemVer={MyGitVersion.GetAssemblyVersion()}"
-                    );
+
+            try
+            {
+                _context.Information($"Running docker compose run");
+
+                 var settings = new DockerComposeRunSettings  {
+                    DetachedMode = true,
+                    Environment = tempEnv.ToArray(),
+                    Files = dcFiles
+                };
+
+                _context.DockerComposeRun(settings, "testrunner", "dotnet", "test", "--logger:trx", "--no-build", "--no-restore"
+                                , "-r" , "/testresults", "-c", _configuration
+                                , $"/p:NuGetVersionV2={MyGitVersion.GetVersion()}" , $"/p:AssemblySemVer={MyGitVersion.GetAssemblyVersion()}"
+                                );
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                 _context.Information($"Running docker compose down");
+
+                 var settings = new DockerComposeDownSettings {
+                    Files = dcFiles,
+                    RemoveOrphans = true
+                };
+
+                _context.DockerComposeDown(settings);
+
+            }
+
+
+
         } else {
             _context.Verbose("Dry Run, skipping DockerComposeRun");
         }
