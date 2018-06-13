@@ -440,10 +440,11 @@ public class MyDotNet {
                 _context.Information($"Running docker compose run");
 
                  var settings = new DockerComposeRunSettings  {
-                    DetachedMode = true,
+                    //DetachedMode = true,
                     Environment = tempEnv.ToArray(),
                     Files = dcFiles,
                     // Verbose = true,
+                    Rm = true,
                     ProjectName = projectName
                 };
 
