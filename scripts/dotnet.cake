@@ -442,9 +442,9 @@ public class MyDotNet {
                  var settings = new DockerComposeRunSettings  {
                     DetachedMode = true,
                     Environment = tempEnv.ToArray(),
-                    Files = dcFiles //,
+                    Files = dcFiles,
                     // Verbose = true,
-                    //ProjectName = projectName
+                    ProjectName = projectName
                 };
 
                 _context.DockerComposeRun(settings, "testrunner");
@@ -464,9 +464,9 @@ public class MyDotNet {
 
                  var settings = new DockerComposeDownSettings {
                     Files = dcFiles,
-                    RemoveOrphans = true //,
+                    RemoveOrphans = true,
                     // Verbose = true,
-                    // ProjectName = projectName
+                    ProjectName = projectName
                 };
 
                 _context.DockerComposeDown(settings);
