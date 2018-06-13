@@ -20,12 +20,12 @@ RUN dotnet build /proj/SoftwarePioniere.ReadModel.MongoDb.sln -c $CONFIGURATION 
 
 FROM buildsln as testrunner
 ARG PROJECT=SoftwarePioniere.ReadModel.Services.MongoDb.Tests
-# ARG CONFIGURATION=Release
-# ARG NUGETVERSIONV2=99.99.99
-# ARG ASSEMBLYSEMVER=99.99.99.99
+ARG CONFIGURATION=Release
+ARG NUGETVERSIONV2=99.99.99
+ARG ASSEMBLYSEMVER=99.99.99.99
 WORKDIR /proj/test/$PROJECT
-# ENTRYPOINT ["dotnet", "test", "--logger:trx"]
-# RUN dotnet test -c $CONFIGURATION --no-restore --no-build /p:NuGetVersionV2=$NUGETVERSIONV2 /p:AssemblySemVer=$ASSEMBLYSEMVER -r /testresults
+# ENTRYPOINT ["dotnet", "test", "--logger:trx", "--no-build", "--no-restore", "-c", $CONFIGURATION, "-r" , "/testresults" , "/p:NuGetVersionV2=$NUGETVERSIONV2", "/p:AssemblySemVer=$ASSEMBLYSEMVER" ]
+# RUN dotnet test --logger:trx --no-build --no-restore -c $CONFIGURATION -r /testresults /p:NuGetVersionV2=$NUGETVERSIONV2 /p:AssemblySemVer=$ASSEMBLYSEMVER
 
 FROM buildsln as pack
 ARG CONFIGURATION=Release

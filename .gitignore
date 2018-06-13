@@ -330,3 +330,4 @@ ASALocalRun/
 
 # Software Pioniere
 nuget.config.build.tmp
+.env

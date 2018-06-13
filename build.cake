@@ -163,7 +163,7 @@ Task("DockerTest")
     //             $"SOPI_TESTS_MONGODB__DATABASEID=sopi-test-run"
     //     };
 
-//    MyDotNet.DockerBuildTestImage(image + ".tests" , "SoftwarePioniere.ReadModel.Services.MongoDb.Tests");
+//   MyDotNet.DockerBuildTestImage(image + ".tests" , "SoftwarePioniere.ReadModel.Services.MongoDb.Tests");
    MyDotNet.DockerComposeTestProject(image + ".tests" , "SoftwarePioniere.ReadModel.Services.MongoDb.Tests", artifactsDirectory);
 
 
