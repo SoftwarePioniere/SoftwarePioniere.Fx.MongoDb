@@ -431,7 +431,7 @@ public class MyDotNet {
                 "docker-compose.override.testrunner.yml"
         };
 
-        var projectName = string.Concat(project , MyGitVersion.GetVersion() );
+        var projectName = string.Concat(project , MyGitVersion.GetVersion()).Replace(".","_").Replace(":","_");
 
         if (!_isDryRun) {
 
@@ -442,15 +442,17 @@ public class MyDotNet {
                  var settings = new DockerComposeRunSettings  {
                     DetachedMode = true,
                     Environment = tempEnv.ToArray(),
-                    Files = dcFiles,
-                    Verbose = true,
-                    ProjectName = projectName
+                    Files = dcFiles //,
+                    // Verbose = true,
+                    //ProjectName = projectName
                 };
 
-                _context.DockerComposeRun(settings, "testrunner", "dotnet", "test", "--logger:trx", "--no-build", "--no-restore"
-                                , "-r" , "/testresults", "-c", _configuration
-                                , $"/p:NuGetVersionV2={MyGitVersion.GetVersion()}" , $"/p:AssemblySemVer={MyGitVersion.GetAssemblyVersion()}"
-                                );
+                _context.DockerComposeRun(settings, "testrunner");
+                // , "dotnet", "test", "--logger:trx", "--no-build", "--no-restore"
+                //                 , "-r" , "/testresults", "-c", _configuration
+                //                 , $"/p:NuGetVersionV2={MyGitVersion.GetVersion()}" , $"/p:AssemblySemVer={MyGitVersion.GetAssemblyVersion()}"
+                //                 );
+
             }
             catch (System.Exception)
             {
@@ -462,9 +464,9 @@ public class MyDotNet {
 
                  var settings = new DockerComposeDownSettings {
                     Files = dcFiles,
-                    RemoveOrphans = true,
-                    Verbose = true,
-                    ProjectName = projectName
+                    RemoveOrphans = true //,
+                    // Verbose = true,
+                    // ProjectName = projectName
                 };
 
                 _context.DockerComposeDown(settings);
