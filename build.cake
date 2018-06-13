@@ -90,8 +90,8 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(context =>
 {
-    MyDocker.StopTestEnv();
-    MyDocker.StartTestEnv();
+    MyDocker.StopTestEnv(context);
+    MyDocker.StartTestEnv(context);
 
 
     MyDotNet.TestProjects("./test/**/*.csproj");

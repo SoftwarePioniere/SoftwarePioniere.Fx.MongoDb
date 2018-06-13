@@ -53,20 +53,25 @@ public class MyDocker {
 
 
 
-    public static void StartTestEnv(){
-         _context.Information("Starting Test Environment");
+    public static void StartTestEnv(ICakeContext context){
+         context.Information("Starting Test Environment");
 
-         _context.DockerComposeUp( new DockerComposeUpSettings{
+         context.DockerComposeUp( new DockerComposeUpSettings{
                     Files = new [] { "docker-compose.yml" },
                     DetachedMode = true,
                     ForceRecreate = true
             });
+
+        _context = context;
     }
 
-    public static void StopTestEnv(){
-         _context.Information("Stopping Test Environment");
+    public static void StopTestEnv(ICakeContext context = null){
+        if (context == null)
+            context = _context;
 
-         _context.DockerComposeDown( new DockerComposeDownSettings{
+         context.Information("Stopping Test Environment");
+
+         context.DockerComposeDown( new DockerComposeDownSettings{
                 Files = new [] { "docker-compose.yml" },
                 RemoveOrphans = true
         });
