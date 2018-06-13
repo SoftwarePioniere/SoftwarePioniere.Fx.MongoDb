@@ -312,22 +312,12 @@ public class MyDotNet {
         }
     }
 
-    public static void DockerTestProject(string image, string project, ConvertableDirectoryPath artifactsDirectory, string[] env = null) {
+    public static void DockerBuildTestImage(string image, string project) {
         TestInit();
 
         _context.Information($"Building Test Runner Images with Docker...");
 
-        var testResultBaseDirectory = artifactsDirectory + _context.Directory("TestResults");
-        var testResultDirectory = testResultBaseDirectory + _context.Directory(project);
-
-        if  ( !_context.DirectoryExists(testResultBaseDirectory)) {
-            _context.CreateDirectory(testResultBaseDirectory);
-        }
-
-        _context.CleanDirectories(new DirectoryPath[] { testResultDirectory });
-
-        {
-            var settings = new DockerImageBuildSettings {
+        var settings = new DockerImageBuildSettings {
             // Rm = true,
             Pull = true,
             BuildArg = new [] {
@@ -338,52 +328,93 @@ public class MyDotNet {
             },
             Tag = GetDockerTestRunnerTags(image),
             Target = "testrunner"
-            };
+        };
 
-            if (!_isDryRun) {
-                _context.DockerBuild(settings, ".");
-            } else {
-                _context.Verbose("Dry Run, skipping DockerBuild");
-            }
+        if (!_isDryRun) {
+            _context.DockerBuild(settings, ".");
+        } else {
+            _context.Verbose("Dry Run, skipping DockerBuild");
         }
+    }
+
+
+    public static void DockerTestProject(string image, string project, ConvertableDirectoryPath artifactsDirectory, string[] env = null) {
+        TestInit();
+
+        DockerBuildTestImage(image, project);
+
+        var testResultBaseDirectory = artifactsDirectory + _context.Directory("TestResults");
+        var testResultDirectory = testResultBaseDirectory + _context.Directory(project);
+
+        if  ( !_context.DirectoryExists(testResultBaseDirectory)) {
+            _context.CreateDirectory(testResultBaseDirectory);
+        }
+
+        _context.CleanDirectories(new DirectoryPath[] { testResultDirectory });
 
         _context.Information($"Running Test with Docker...");
 
-        {
-              var settings = new DockerContainerRunSettings {
-                    Rm = true,
-                    Volume = new [] {
-                        _context.MakeAbsolute(testResultDirectory) + ":/testresults"
-                    },
-                    Env = env
-                };
+        var settings = new DockerContainerRunSettings {
+            Rm = true,
+            Volume = new [] {
+                _context.MakeAbsolute(testResultDirectory) + ":/testresults"
+            },
+            Env = env
+        };
 
-                var tags = GetDockerTestRunnerTags(image);
-                var tag = tags[0];
+        var tags = GetDockerTestRunnerTags(image);
+        var tag = tags[0];
 
-                if (!_isDryRun) {
-                    // _context.DockerRun(settings, tag, "") ; //, "test", "--logger:trx", "--no-build", "-k", _nugetApiKey);
-                    _context.DockerRun(settings, tag, "dotnet", "test", "--logger:trx", "--no-build", "--no-restore"
-                                , "-r" , "/testresults", "-c", _configuration
-                                , $"/p:NuGetVersionV2={MyGitVersion.GetVersion()}" , $"/p:AssemblySemVer={MyGitVersion.GetAssemblyVersion()}"
-                              );
-                } else {
-                    _context.Verbose("Dry Run, skipping DockerRun");
-                }
+        if (!_isDryRun) {
+            // _context.DockerRun(settings, tag, "") ; //, "test", "--logger:trx", "--no-build", "-k", _nugetApiKey);
+            _context.DockerRun(settings, tag, "dotnet", "test", "--logger:trx", "--no-build", "--no-restore"
+                        , "-r" , "/testresults", "-c", _configuration
+                        , $"/p:NuGetVersionV2={MyGitVersion.GetVersion()}" , $"/p:AssemblySemVer={MyGitVersion.GetAssemblyVersion()}"
+                      );
+        } else {
+            _context.Verbose("Dry Run, skipping DockerRun");
+        }
+    }
 
+     public static void DockerComposeTestProject(string image, string project, ConvertableDirectoryPath artifactsDirectory, string[] env = null) {
+        TestInit();
+
+        DockerBuildTestImage(image, project);
+
+        var testResultBaseDirectory = artifactsDirectory + _context.Directory("TestResults");
+        var testResultDirectory = testResultBaseDirectory + _context.Directory(project);
+
+        if  ( !_context.DirectoryExists(testResultBaseDirectory)) {
+            _context.CreateDirectory(testResultBaseDirectory);
         }
 
+        _context.CleanDirectories(new DirectoryPath[] { testResultDirectory });
 
+        _context.Information($"Running Test with Docker...");
 
-        // settings.Tag = GetDockerPushPackagesTags(image);
-        // settings.Target = "pushpackages";
+        var tags = GetDockerTestRunnerTags(image);
+        var tag = tags[0];
 
-        // if (!_isDryRun) {
-        //      _context.DockerBuild(settings, ".");
-        // } else {
-        //     _context.Verbose("Dry Run, skipping DockerBuild");
-        // }
+        var settings = new DockerComposeRunSettings  {
+            DetachedMode = true,
+            Environment = new [] {
+                $"CONFIGURATION={_configuration}",
+                $"NUGETVERSIONV2={MyGitVersion.GetVersion()}",
+                $"ASSEMBLYSEMVER={MyGitVersion.GetAssemblyVersion()}",
+                $"TAG={tag}",
+                $"PROJECT={project}",
+                $"TESTRESULTS={_context.MakeAbsolute(testResultDirectory)}"
+            },
+        };
 
+        if (!_isDryRun) {
+            _context.DockerComposeRun(settings, "testrunner", "dotnet", "test", "--logger:trx", "--no-build", "--no-restore"
+                        , "-r" , "/testresults", "-c", _configuration
+                        , $"/p:NuGetVersionV2={MyGitVersion.GetVersion()}" , $"/p:AssemblySemVer={MyGitVersion.GetAssemblyVersion()}"
+                      );
+        } else {
+            _context.Verbose("Dry Run, skipping DockerComposeRun");
+        }
     }
 
     public static void DockerPack(string image) {

@@ -82,6 +82,24 @@ Task("Build")
 
 });
 
+private void StartTestEnv(){
+    Information("Starting Test Environment");
+
+    DockerComposeUp( new DockerComposeUpSettings{
+                Files = new [] { "docker-compose.yml" },
+                DetachedMode = true,
+                ForceRecreate = true
+        });
+}
+
+private void StopTestEnv(){
+    Information("Stopping Test Environment");
+
+    DockerComposeDown( new DockerComposeDownSettings{
+            Files = new [] { "docker-compose.yml" },
+            RemoveOrphans = true
+    });
+}
 
 Task("Test")
     .IsDependentOn("Clean")
@@ -90,8 +108,20 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(context =>
 {
+    StopTestEnv();
+    StartTestEnv();
+
+
     MyDotNet.TestProjects("./test/**/*.csproj");
-});
+
+    MyDotNet.PublishProjects(artifactsDirectory, "./test/**/*.csproj");
+
+})
+.Finally(() =>
+{
+  StopTestEnv();
+})
+;
 
 Task("Pack")
     .IsDependentOn("Clean")
@@ -128,12 +158,15 @@ Task("DockerTest")
     .Does(context =>
 {
 
-    var env = new [] {
-                $"SOPI_TESTS_MONGODB__PORT={EnvironmentVariable("SOPI_TESTS_MONGODB__PORT")}",
-                $"SOPI_TESTS_MONGODB__DATABASEID=sopi-test-run"
-        };
+    // var env = new [] {
+    //             $"SOPI_TESTS_MONGODB__PORT={EnvironmentVariable("SOPI_TESTS_MONGODB__PORT")}",
+    //             $"SOPI_TESTS_MONGODB__DATABASEID=sopi-test-run"
+    //     };
 
-     MyDotNet.DockerTestProject(image + ".tests" , "SoftwarePioniere.ReadModel.Services.MongoDb.Tests", artifactsDirectory, env);
+//    MyDotNet.DockerBuildTestImage(image + ".tests" , "SoftwarePioniere.ReadModel.Services.MongoDb.Tests");
+   MyDotNet.DockerComposeTestProject(image + ".tests" , "SoftwarePioniere.ReadModel.Services.MongoDb.Tests", artifactsDirectory);
+
+
 });
 
 Task("DockerPack")
@@ -180,6 +213,19 @@ Task("DockerBuildPush")
     .IsDependentOn("DockerPushPackages")
     ;
 
+Task("Test1")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Version")
+    .IsDependentOn("DockerBuild")
+    .IsDependentOn("DockerTest")
+    ;
+
+Task("Test2")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Version")
+    .IsDependentOn("DockerBuild")
+    .IsDependentOn("DockerTest")
+    ;
 
 ///////////////////////////////////////////////////////////////////////////////
 // EXECUTION

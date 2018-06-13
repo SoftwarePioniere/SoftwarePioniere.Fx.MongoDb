@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+
+  testrunner:
+    image: softwarepioniere/softwarepioniere.readmodel.mongodb.tests.testrunner:${TAG}
+    depends_on:
+      - mongodb
+    environment:
+      - SOPI_TESTS_MONGODB__PORT=27017
+      - SOPI_TESTS_MONGODB__DATABASEID=testrun
+      - SOPI_TESTS_MONGODB__SERVER=mongodb
+    volumes:
+      - ${TESTRESULTS}:/testresults
+    # command: ["dotnet", "test", "--logger:trx", "--no-build", "--no-restore", "-r /testresults", "-c ${CONFIGURATION}", $"/p:NuGetVersionV2=${NUGETVERSIONV2}" , "/p:AssemblySemVer=${ASSEMBLYSEMVER}"]
