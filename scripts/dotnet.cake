@@ -431,7 +431,7 @@ public class MyDotNet {
                 "docker-compose.override.testrunner.yml"
         };
 
-
+        var projectName = string.Concat(project , MyGitVersion.GetVersion() );
 
         if (!_isDryRun) {
 
@@ -442,7 +442,9 @@ public class MyDotNet {
                  var settings = new DockerComposeRunSettings  {
                     DetachedMode = true,
                     Environment = tempEnv.ToArray(),
-                    Files = dcFiles
+                    Files = dcFiles,
+                    Verbose = true,
+                    ProjectName = projectName
                 };
 
                 _context.DockerComposeRun(settings, "testrunner", "dotnet", "test", "--logger:trx", "--no-build", "--no-restore"
@@ -460,7 +462,9 @@ public class MyDotNet {
 
                  var settings = new DockerComposeDownSettings {
                     Files = dcFiles,
-                    RemoveOrphans = true
+                    RemoveOrphans = true,
+                    Verbose = true,
+                    ProjectName = projectName
                 };
 
                 _context.DockerComposeDown(settings);
