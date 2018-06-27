@@ -7,17 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1BA68A51-B12
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3BA466C7-78BB-48FE-B34E-B52FF399E228}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwarePioniere.ReadModel.Services.MongoDb", "src\SoftwarePioniere.ReadModel.Services.MongoDb\SoftwarePioniere.ReadModel.Services.MongoDb.csproj", "{FAB09FDC-5ABA-4DE4-880F-9EA898845AEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwarePioniere.ReadModel.Services.MongoDb", "src\SoftwarePioniere.ReadModel.Services.MongoDb\SoftwarePioniere.ReadModel.Services.MongoDb.csproj", "{FAB09FDC-5ABA-4DE4-880F-9EA898845AEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftwarePioniere.ReadModel.Services.MongoDb.Tests", "test\SoftwarePioniere.ReadModel.Services.MongoDb.Tests\SoftwarePioniere.ReadModel.Services.MongoDb.Tests.csproj", "{79427ECE-8390-46AA-9DC7-933925465770}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftwarePioniere.ReadModel.Services.MongoDb.Tests", "test\SoftwarePioniere.ReadModel.Services.MongoDb.Tests\SoftwarePioniere.ReadModel.Services.MongoDb.Tests.csproj", "{79427ECE-8390-46AA-9DC7-933925465770}"
 EndProject
 Global
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1E904508-C458-4257-8892-46D60DD6134D}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
@@ -52,8 +46,14 @@ Global
 		{79427ECE-8390-46AA-9DC7-933925465770}.Release|x86.ActiveCfg = Release|Any CPU
 		{79427ECE-8390-46AA-9DC7-933925465770}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FAB09FDC-5ABA-4DE4-880F-9EA898845AEE} = {1BA68A51-B127-4F3A-B302-49FE8684CB92}
 		{79427ECE-8390-46AA-9DC7-933925465770} = {3BA466C7-78BB-48FE-B34E-B52FF399E228}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1E904508-C458-4257-8892-46D60DD6134D}
 	EndGlobalSection
 EndGlobal

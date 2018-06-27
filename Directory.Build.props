@@ -28,6 +28,8 @@
       <MyVersion>99.99.99</MyVersion>
       <IsPackable>True</IsPackable>
       <Authors>SoftwarePioniere</Authors>
+      <PackageProjectUrl>https://github.com/SoftwarePioniere/SoftwarePioniere.ReadModel.MongoDb</PackageProjectUrl>
+      <RepositoryUrl>https://github.com/SoftwarePioniere/SoftwarePioniere.ReadModel.MongoDb</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(NuGetVersionV2)' == '' ">
