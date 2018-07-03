@@ -1,7 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using SoftwarePioniere.ReadModel;
+using SoftwarePioniere.ReadModel.Services.MongoDb;
 
-namespace SoftwarePioniere.ReadModel.Services.MongoDb
+// ReSharper disable once CheckNamespace
+namespace SoftwarePioniere
 {
     public static class DependencyInjectionExtensions
     {

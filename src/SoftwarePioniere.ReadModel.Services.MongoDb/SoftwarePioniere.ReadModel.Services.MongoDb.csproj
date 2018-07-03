@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SoftwarePioniere.ReadModel.Services" Version="0.2.3" />
+    <PackageReference Include="SoftwarePioniere.ReadModel.Services" Version="0.2.4" />
     <PackageReference Include="MongoDB.Driver" Version="2.7.0" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.7.0" />
   </ItemGroup>
