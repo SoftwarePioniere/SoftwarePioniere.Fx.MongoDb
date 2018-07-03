@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using SoftwarePioniere.ReadModel.Tests;
 using Xunit;
 using Xunit.Abstractions;
 

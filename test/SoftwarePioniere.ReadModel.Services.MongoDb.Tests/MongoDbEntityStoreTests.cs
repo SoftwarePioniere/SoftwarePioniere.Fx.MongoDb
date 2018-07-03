@@ -1,20 +1,55 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SoftwarePioniere.ReadModel.Tests;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace SoftwarePioniere.ReadModel.Services.MongoDb.Tests
 {
     [Collection("MongoDbCollection")]
-    public class MongoDbEntityStoreTests  : EntityStoreTestsBase
+    public class MongoDbEntityStoreTests : EntityStoreTestsBase
     {
         public MongoDbEntityStoreTests(ITestOutputHelper output) : base(output)
         {
             ServiceCollection
                 .AddOptions()
                 .AddMongoDbEntityStore(options => Configurator.Instance.ConfigurationRoot.Bind("MongoDb", options));
+        }
+
+        [Fact]
+        public override void DeleteWithCancelationThrowsError()
+        {
+            base.DeleteWithCancelationThrowsError();
+        }
+
+        [Fact]
+        public override void InsertWithCancelationThrowsError()
+        {
+            base.InsertWithCancelationThrowsError();
+        }
+
+        [Fact]
+        public override void LoadItemsWithPagingAndCancelationThrowsError()
+        {
+            base.LoadItemsWithPagingAndCancelationThrowsError();
+        }
+
+        [Fact]
+        public override void LoadItemsWithCancelationThrowsError()
+        {
+            base.LoadItemsWithCancelationThrowsError();
+        }
+
+        [Fact]
+        public override void LoadItemWithCancelationThrowsError()
+        {
+            base.LoadItemWithCancelationThrowsError();
+        }
+
+        [Fact]
+        public override void UpdateWithCancelationThrowsError()
+        {
+            base.UpdateWithCancelationThrowsError();
         }
 
         [Fact]
