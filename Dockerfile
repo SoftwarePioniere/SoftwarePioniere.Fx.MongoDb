@@ -6,7 +6,7 @@ COPY Directory.Build.* ./
 COPY *.sln ./
 COPY src/SoftwarePioniere.ReadModel.Services.MongoDb/*.csproj ./src/SoftwarePioniere.ReadModel.Services.MongoDb/
 COPY test/SoftwarePioniere.ReadModel.Services.MongoDb.Tests/*.csproj ./test/SoftwarePioniere.ReadModel.Services.MongoDb.Tests/
-RUN dotnet restore SoftwarePioniere.ReadModel.MongoDb.sln
+RUN dotnet restore SoftwarePioniere.MongoDb.sln
 
 FROM restore as src
 COPY . .
@@ -16,7 +16,7 @@ ARG CONFIGURATION=Release
 ARG NUGETVERSIONV2=99.99.99
 ARG ASSEMBLYSEMVER=99.99.99.99
 WORKDIR /proj/src/
-RUN dotnet build /proj/SoftwarePioniere.ReadModel.MongoDb.sln -c $CONFIGURATION --no-restore /p:NuGetVersionV2=$NUGETVERSIONV2 /p:AssemblySemVer=$ASSEMBLYSEMVER
+RUN dotnet build /proj/SoftwarePioniere.MongoDb.sln -c $CONFIGURATION --no-restore /p:NuGetVersionV2=$NUGETVERSIONV2 /p:AssemblySemVer=$ASSEMBLYSEMVER
 
 FROM buildsln as testrunner
 ARG PROJECT=SoftwarePioniere.ReadModel.Services.MongoDb.Tests
@@ -31,5 +31,5 @@ FROM buildsln as pack
 ARG CONFIGURATION=Release
 ARG NUGETVERSIONV2=99.99.99
 ARG ASSEMBLYSEMVER=99.99.99.99
-RUN dotnet pack /proj/SoftwarePioniere.ReadModel.MongoDb.sln -c $CONFIGURATION --no-restore --no-build /p:NuGetVersionV2=$NUGETVERSIONV2 /p:AssemblySemVer=$ASSEMBLYSEMVER -o /proj/packages
+RUN dotnet pack /proj/SoftwarePioniere.MongoDb.sln -c $CONFIGURATION --no-restore --no-build /p:NuGetVersionV2=$NUGETVERSIONV2 /p:AssemblySemVer=$ASSEMBLYSEMVER -o /proj/packages
 WORKDIR /proj/packages/

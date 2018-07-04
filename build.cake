@@ -17,7 +17,7 @@ var isDryRun        = HasArgument("dryrun1");
 
 var artifactsDirectory  = Directory("./artifacts");
 var version             = "0.0.0";
-var solutionFile        = File("./SoftwarePioniere.ReadModel.MongoDb.sln");
+var solutionFile        = File("./SoftwarePioniere.MongoDb.sln");
 var image               = "softwarepioniere/softwarepioniere.readmodel.mongodb";
 var nugetApiKey         = "VSTS";
 var vstsToken           = "XXX";
