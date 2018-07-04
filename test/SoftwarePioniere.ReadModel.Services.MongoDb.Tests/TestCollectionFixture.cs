@@ -15,7 +15,7 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb.Tests
             services
                 .AddOptions()
                 .AddSingleton<ILoggerFactory>(new NullLoggerFactory())
-                .AddMongoDbEntityStore(options => Configurator.Instance.ConfigurationRoot.Bind("MongoDb", options));
+                .AddMongoDbEntityStore(options => new TestConfiguration().ConfigurationRoot.Bind("MongoDb", options));
 
             var provider = services.BuildServiceProvider().GetService<MongoDbConnectionProvider>();
             provider.ClearDatabaseAsync().ConfigureAwait(false).GetAwaiter().GetResult();

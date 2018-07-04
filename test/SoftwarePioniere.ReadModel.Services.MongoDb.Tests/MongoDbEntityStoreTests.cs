@@ -13,7 +13,7 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb.Tests
         {
             ServiceCollection
                 .AddOptions()
-                .AddMongoDbEntityStore(options => Configurator.Instance.ConfigurationRoot.Bind("MongoDb", options));
+                .AddMongoDbEntityStore(options => new TestConfiguration().ConfigurationRoot.Bind("MongoDb", options));
         }
 
         [Fact]
