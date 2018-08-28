@@ -113,6 +113,26 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
             await collection.InsertOneAsync(new MongoEntity<T> { _id = item.EntityId, Entity = item }, null, token).ConfigureAwait(false);
         }
 
+        protected override async Task InternalBulkInsertItemsAsync<T>(T[] items, CancellationToken token = new CancellationToken())
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            if (Logger.IsEnabled(LogLevel.Debug))
+            {
+                Logger.LogDebug("BulkInsertItemsAsync: {EntityType} {EntityCount}", typeof(T), items.Length);
+            }
+
+            var collection = _provider.GetCol<T>();
+
+            var entities = items.Select(item => new MongoEntity<T> { _id = item.EntityId, Entity = item });
+
+            await collection.InsertManyAsync(entities, null, token);
+
+        }
+
         protected override async Task InternalInsertOrUpdateItemAsync<T>(T item, CancellationToken token = default(CancellationToken))
         {
             if (item == null)

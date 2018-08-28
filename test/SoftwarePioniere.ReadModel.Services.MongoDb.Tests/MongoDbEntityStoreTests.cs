@@ -15,6 +15,12 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb.Tests
                 .AddOptions()
                 .AddMongoDbEntityStore(options => new TestConfiguration().ConfigurationRoot.Bind("MongoDb", options));
         }
+         
+        [Fact]
+        public override Task CanBulkInsertManyItems()
+        {
+            return base.CanBulkInsertManyItems();
+        }
 
         [Fact]
         public override void DeleteWithCancelationThrowsError()
