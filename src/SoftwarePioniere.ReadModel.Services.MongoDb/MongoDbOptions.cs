@@ -1,6 +1,6 @@
 ﻿namespace SoftwarePioniere.ReadModel.Services.MongoDb
 {
-    public class MongoDbOptions
+    public class MongoDbOptions : EntityStoreOptionsBase
     {
 
         public string UserName { get; set; }

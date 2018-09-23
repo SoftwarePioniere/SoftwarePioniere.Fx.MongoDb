@@ -6,9 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SoftwarePioniere.ReadModel.Services" Version="0.2.25" />
     <PackageReference Include="MongoDB.Driver" Version="2.7.0" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.7.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(UseLocalSources)' != 'true' ">
+    <PackageReference Include="SoftwarePioniere.ReadModel.Services" Version="0.2.26" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(UseLocalSources)' == 'true' ">
+    <ProjectReference Include="..\..\..\SoftwarePioniere.Fx\src\SoftwarePioniere.ReadModel.Services\SoftwarePioniere.ReadModel.Services.csproj" />
   </ItemGroup>
 
 </Project>

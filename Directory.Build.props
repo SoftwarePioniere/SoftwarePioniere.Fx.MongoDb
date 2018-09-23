@@ -1,7 +1,14 @@
 <Project>
 
   <PropertyGroup>
-   <DefaultItemExcludes>$(DefaultItemExcludes);$(MSBuildProjectDirectory)/obj/**/*</DefaultItemExcludes>
+    <ParentBuildProps>$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))</ParentBuildProps>
+  </PropertyGroup>
+
+  <Import Condition="Exists('$(ParentBuildProps)')" Project="$(ParentBuildProps)" />
+
+
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(MSBuildProjectDirectory)/obj/**/*</DefaultItemExcludes>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(MSBuildProjectDirectory)/bin/**/*</DefaultItemExcludes>
   </PropertyGroup>
 
@@ -21,35 +28,35 @@
   </PropertyGroup>
 
   <PropertyGroup>
-      <AspNetCoreVersion>2.1.0</AspNetCoreVersion>
+    <AspNetCoreVersion>2.1.0</AspNetCoreVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-      <MyVersion>99.99.99</MyVersion>
-      <IsPackable>True</IsPackable>
-      <Authors>SoftwarePioniere</Authors>
-      <PackageProjectUrl>https://github.com/SoftwarePioniere/SoftwarePioniere.ReadModel.MongoDb</PackageProjectUrl>
-      <RepositoryUrl>https://github.com/SoftwarePioniere/SoftwarePioniere.ReadModel.MongoDb</RepositoryUrl>
+    <MyVersion>99.99.99</MyVersion>
+    <IsPackable>True</IsPackable>
+    <Authors>SoftwarePioniere</Authors>
+    <PackageProjectUrl>https://github.com/SoftwarePioniere/SoftwarePioniere.ReadModel.MongoDb</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SoftwarePioniere/SoftwarePioniere.ReadModel.MongoDb</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(NuGetVersionV2)' == '' ">
-      <Version>$(MyVersion)</Version>
-      <InformationalVersion>$(MyVersion)</InformationalVersion>
+    <Version>$(MyVersion)</Version>
+    <InformationalVersion>$(MyVersion)</InformationalVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(AssemblySemVer)' == '' ">
-      <AssemblyVersion>$(MyVersion)</AssemblyVersion>
-      <FileVersion>$(MyVersion)</FileVersion>
+    <AssemblyVersion>$(MyVersion)</AssemblyVersion>
+    <FileVersion>$(MyVersion)</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(NuGetVersionV2)' != '' ">
-        <Version>$(NuGetVersionV2)</Version>
-        <InformationalVersion>$(NuGetVersionV2)</InformationalVersion>
+    <Version>$(NuGetVersionV2)</Version>
+    <InformationalVersion>$(NuGetVersionV2)</InformationalVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(AssemblySemVer)' != '' ">
-        <AssemblyVersion>$(AssemblySemVer)</AssemblyVersion>
-        <FileVersion>$(AssemblySemVer)</FileVersion>
+    <AssemblyVersion>$(AssemblySemVer)</AssemblyVersion>
+    <FileVersion>$(AssemblySemVer)</FileVersion>
   </PropertyGroup>
 
 </Project>

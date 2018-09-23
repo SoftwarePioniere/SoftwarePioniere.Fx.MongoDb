@@ -4,18 +4,17 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Foundatio.Caching;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
 namespace SoftwarePioniere.ReadModel.Services.MongoDb
 {
-    public class MongoDbEntityStore : EntityStoreBase
+    public class MongoDbEntityStore : EntityStoreBase<MongoDbOptions>
     {
         private readonly MongoDbConnectionProvider _provider;
 
-        public MongoDbEntityStore(ILoggerFactory loggerFactory, ICacheClient cacheClient,
-            MongoDbConnectionProvider provider) : base(loggerFactory, cacheClient)
+        public MongoDbEntityStore(MongoDbOptions options,
+            MongoDbConnectionProvider provider) : base(options)
         {
             _provider = provider ?? throw new ArgumentNullException(nameof(provider));
         }
