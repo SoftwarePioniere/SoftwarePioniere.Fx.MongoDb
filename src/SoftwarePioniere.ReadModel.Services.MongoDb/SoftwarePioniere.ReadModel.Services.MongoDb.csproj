@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(UseLocalSources)' != 'true' ">
-    <PackageReference Include="SoftwarePioniere.ReadModel.Services" Version="0.2.27" />
+    <PackageReference Include="SoftwarePioniere.ReadModel.Services" Version="0.2.30" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(UseLocalSources)' == 'true' ">
