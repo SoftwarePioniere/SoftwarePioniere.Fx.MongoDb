@@ -37,7 +37,7 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
             KeyCache = new TypeKeyCache();
 
             Settings = settings.Value;
-            _logger.LogInformation("MongoDb Connection {Connection}", settings);
+            _logger.LogInformation("MongoDb Connection {Connection}", settings.Value);
 
             InitClient();
             InitDatabase();

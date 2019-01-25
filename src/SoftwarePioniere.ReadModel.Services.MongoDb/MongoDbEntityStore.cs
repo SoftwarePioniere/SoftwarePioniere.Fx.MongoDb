@@ -21,7 +21,7 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
 
         public override async Task<T[]> LoadItemsAsync<T>(CancellationToken token = default(CancellationToken))
         {
-            Logger.LogDebug("LoadItemsAsync: {EntityType}", typeof(T));
+            Logger.LogTrace("LoadItemsAsync: {EntityType}", typeof(T));
 
             var collection = _provider.GetCol<T>();
             var filter = new ExpressionFilterDefinition<MongoEntity<T>>(x => x.Entity.EntityType == _provider.KeyCache.GetEntityTypeKey<T>());
@@ -40,7 +40,7 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
 
         public override async Task<T[]> LoadItemsAsync<T>(Expression<Func<T, bool>> predicate, CancellationToken token = default(CancellationToken))
         {
-            Logger.LogDebug("LoadItemsAsync: {EntityType} {Expression}", typeof(T), predicate);
+            Logger.LogTrace("LoadItemsAsync: {EntityType} {Expression}", typeof(T), predicate);
 
             //TODO: echten filter einbauen
             var items = await LoadItemsAsync<T>(token);
@@ -54,10 +54,9 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
                 throw new ArgumentNullException(nameof(parms));
             }
 
-            if (Logger.IsEnabled(LogLevel.Debug))
-            {
-                Logger.LogDebug("LoadPagedResultAsync: {EntityType} {Paramter}", typeof(T), parms);
-            }
+
+            Logger.LogTrace("LoadPagedResultAsync: {EntityType} {Paramter}", typeof(T), parms);
+
 
             var items = (await LoadItemsAsync<T>(token)).AsQueryable();
 
@@ -86,10 +85,8 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
                 throw new ArgumentNullException(nameof(entityId));
             }
 
-            if (Logger.IsEnabled(LogLevel.Debug))
-            {
-                Logger.LogDebug("InternalDeleteItemAsync: {EntityType} {EntityId}", typeof(T), entityId);
-            }
+            Logger.LogTrace("InternalDeleteItemAsync: {EntityType} {EntityId}", typeof(T), entityId);
+
 
             var collection = _provider.GetCol<T>();
             var filter = new ExpressionFilterDefinition<MongoEntity<T>>(x => x._id == entityId);
@@ -103,10 +100,8 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
                 throw new ArgumentNullException(nameof(item));
             }
 
-            if (Logger.IsEnabled(LogLevel.Debug))
-            {
-                Logger.LogDebug("InternalInsertItemAsync: {EntityType} {EntityId}", typeof(T), item.EntityId);
-            }
+            Logger.LogTrace("InternalInsertItemAsync: {EntityType} {EntityId}", typeof(T), item.EntityId);
+
 
             var collection = _provider.GetCol<T>();
             await collection.InsertOneAsync(new MongoEntity<T> { _id = item.EntityId, Entity = item }, null, token).ConfigureAwait(false);
@@ -118,11 +113,7 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
             {
                 throw new ArgumentNullException(nameof(items));
             }
-
-            if (Logger.IsEnabled(LogLevel.Debug))
-            {
-                Logger.LogDebug("BulkInsertItemsAsync: {EntityType} {EntityCount}", typeof(T), items.Length);
-            }
+            Logger.LogTrace("BulkInsertItemsAsync: {EntityType} {EntityCount}", typeof(T), items.Length);
 
             var collection = _provider.GetCol<T>();
 
@@ -139,10 +130,7 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
                 throw new ArgumentNullException(nameof(item));
             }
 
-            if (Logger.IsEnabled(LogLevel.Debug))
-            {
-                Logger.LogDebug("InternalInsertOrUpdateItemAsync: {EntityType} {EntityId}", typeof(T), item.EntityId);
-            }
+            Logger.LogTrace("InternalInsertOrUpdateItemAsync: {EntityType} {EntityId}", typeof(T), item.EntityId);
 
             var collection = _provider.GetCol<T>();
 
@@ -167,10 +155,7 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
                 throw new ArgumentNullException(nameof(entityId));
             }
 
-            if (Logger.IsEnabled(LogLevel.Debug))
-            {
-                Logger.LogDebug("InternalLoadItemAsync: {EntityType} {EntityId}", typeof(T), entityId);
-            }
+            Logger.LogTrace("InternalLoadItemAsync: {EntityType} {EntityId}", typeof(T), entityId);
 
             var collection = _provider.GetCol<T>();
 
@@ -196,10 +181,7 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
                 throw new ArgumentNullException(nameof(item));
             }
 
-            if (Logger.IsEnabled(LogLevel.Debug))
-            {
-                Logger.LogDebug("InternalUpdateItemAsync: {EntityType} {EntityId}", typeof(T), item.EntityId);
-            }
+            Logger.LogTrace("InternalUpdateItemAsync: {EntityType} {EntityId}", typeof(T), item.EntityId);
 
             var collection = _provider.GetCol<T>();
             var filter = new ExpressionFilterDefinition<MongoEntity<T>>(x => x.Entity.EntityType == _provider.KeyCache.GetEntityTypeKey<T>() && x._id == item.EntityId);
