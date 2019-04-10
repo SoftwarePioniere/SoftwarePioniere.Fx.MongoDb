@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.8.0" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.8.0" />
-    <PackageReference Include="SoftwarePioniere.ReadModel.Services" Version="0.4.33" />
+    <PackageReference Include="SoftwarePioniere.ReadModel.Services" Version="0.4.39" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(UseLocalSources)' == 'true' ">
