@@ -1,4 +1,4 @@
-#addin "nuget:?package=Cake.Docker"
+#addin "nuget:?package=Cake.Docker&version=0.9.7"
 #load "./utils.cake"
 #reference "Newtonsoft.Json"
 #reference "System"
