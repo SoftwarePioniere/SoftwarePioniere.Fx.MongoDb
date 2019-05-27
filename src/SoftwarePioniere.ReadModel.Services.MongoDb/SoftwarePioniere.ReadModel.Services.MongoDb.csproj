@@ -6,13 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.8.0" />
-    <PackageReference Include="MongoDB.Driver.Core" Version="2.8.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.8.1" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.8.1" />
 
   </ItemGroup>
 
   <ItemGroup Condition=" '$(UseLocalSources)' == 'false' ">
-    <PackageReference Include="SoftwarePioniere.ReadModel.Services" Version="0.4.42" />
+    <PackageReference Include="SoftwarePioniere.ReadModel.Services" Version="0.4.44" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(UseLocalSources)' == 'true' ">
