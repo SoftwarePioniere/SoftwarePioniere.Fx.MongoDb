@@ -103,8 +103,20 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
             Logger.LogTrace("InternalInsertItemAsync: {EntityType} {EntityId}", typeof(T), item.EntityId);
 
 
-            var collection = _provider.GetCol<T>();
-            await collection.InsertOneAsync(new MongoEntity<T> { _id = item.EntityId, Entity = item }, null, token).ConfigureAwait(false);
+
+            try
+            {
+                var collection = _provider.GetCol<T>();
+                await collection.InsertOneAsync(new MongoEntity<T> { _id = item.EntityId, Entity = item }, null, token).ConfigureAwait(false);
+            }
+            catch (MongoWriteException wex)
+            {
+                if (wex.WriteError.Code == 11000)
+                {
+                    await InternalUpdateItemAsync(item, token);
+                }
+            }
+
         }
 
         protected override async Task InternalBulkInsertItemsAsync<T>(T[] items, CancellationToken token = new CancellationToken())
@@ -183,10 +195,20 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
 
             Logger.LogTrace("InternalUpdateItemAsync: {EntityType} {EntityId}", typeof(T), item.EntityId);
 
-            var collection = _provider.GetCol<T>();
-            var filter = new ExpressionFilterDefinition<MongoEntity<T>>(x => x.Entity.EntityType == _provider.KeyCache.GetEntityTypeKey<T>() && x._id == item.EntityId);
+            try
+            {
+                var collection = _provider.GetCol<T>();
+                var filter = new ExpressionFilterDefinition<MongoEntity<T>>(x => x.Entity.EntityType == _provider.KeyCache.GetEntityTypeKey<T>() && x._id == item.EntityId);
 
-            await collection.ReplaceOneAsync(filter, new MongoEntity<T> { _id = item.EntityId, Entity = item }, null, token);
+                await collection.ReplaceOneAsync(filter, new MongoEntity<T> { _id = item.EntityId, Entity = item }, null, token);
+            }
+            catch (MongoWriteException wex)
+            {
+                if (wex.WriteError.Code == 211)
+                {
+                    await InternalInsertItemAsync(item, token);
+                }
+            }
         }
     }
 }
