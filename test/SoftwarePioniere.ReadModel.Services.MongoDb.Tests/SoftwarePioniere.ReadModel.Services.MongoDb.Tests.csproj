@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(UseLocalSources)' == 'false' ">
-    <PackageReference Include="SoftwarePioniere.ReadModel.TestHarness" Version="0.4.52" />
+    <PackageReference Include="SoftwarePioniere.ReadModel.TestHarness" Version="0.4.54" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(UseLocalSources)' == 'true' ">

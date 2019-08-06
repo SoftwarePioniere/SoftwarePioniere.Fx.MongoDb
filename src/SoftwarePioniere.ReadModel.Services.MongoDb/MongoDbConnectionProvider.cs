@@ -108,9 +108,9 @@ namespace SoftwarePioniere.ReadModel.Services.MongoDb
             InitDatabase();
         }
 
-        public IMongoCollection<MongoEntity<T>> GetCol<T>() where T : Entity
+        public IMongoCollection<T> GetCol<T>() where T : Entity
         {
-            return Database.Value.GetCollection<MongoEntity<T>>(KeyCache.GetEntityTypeKey<T>());
+            return Database.Value.GetCollection<T>(KeyCache.GetEntityTypeKey<T>());
         }
     }
 }
